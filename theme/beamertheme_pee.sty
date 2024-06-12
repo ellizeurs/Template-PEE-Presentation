@@ -22,7 +22,7 @@
 
 % TODO: remove top-right logo from title page
 
-\ProvidesPackage{beamertheme_pee}[2023/11/01]
+\ProvidesPackage{beamertheme_pee}[2024/06/12]
 
 \RequirePackage{etoolbox}
 \RequirePackage{tikz}
@@ -61,7 +61,7 @@
   \space de \THEYEAR%
 }
 
-\newcommand{\@footlineauthor}{\href{\ifdefempty{\@email}{}{mailto:\@email}}\insertauthor \enspace$\vert$\enspace}
+\newcommand{\@footlineauthor}{\href{\ifdefempty{\insertemail}{}{mailto:\insertemail}}\insertauthor \enspace$\vert$\enspace}
 \newcommand{\@footlinepayoff}{\@footlineauthor\inserttitle}
 \newcommand{\footlinepayoff}[1]{\renewcommand{\@footlinepayoff}{#1}}
 % Define footline content
@@ -162,11 +162,12 @@
   \end{beamercolorbox}
 }
 
-\def\@courseLabel{}
-\def\@email{}
+\def\insertcourse{}
+\def\insertemail{}
 
-\newcommand{\course}[1]{\def\@courseLabel{#1}}
-\newcommand{\email}[1]{\def\@email{#1}}
+\newcommand{\course}[1]{\def\insertcourse{#1}}
+\newcommand{\email}[1]{\def\insertemail{#1}}
+
 
 % Define the title page
 \setbeamertemplate{title page}{%
@@ -179,9 +180,9 @@
   
     {\usebeamerfont{subtitle}\insertsubtitle}
 
-    {\usebeamerfont{subtitle}\@courseLabel}
+    {\usebeamerfont{subtitle}\insertcourse}
     
-    \href{\ifdefempty{\@email}{}{mailto:\@email}}{\usebeamerfont{author}\usebeamercolor[fg]{author}\textbf{\insertauthor} \ifdefempty{\@email}{}{(\@email)}}
+    \href{\ifdefempty{\insertemail}{}{mailto:\insertemail}}{\usebeamerfont{author}\usebeamercolor[fg]{author}\textbf{\insertauthor} \ifdefempty{\insertemail}{}{(\insertemail)}}
   
     {\usebeamerfont{date}\usebeamercolor[fg]{date}\monthyeardate\displaydate{currentdate}}
   \end{beamercolorbox}
@@ -287,16 +288,25 @@
   \endgroup
 }
 
+
+
 % Define backmatter
 \newcommand{\backmatter}[1][]{
 \begingroup
   \themecolor{main}
-  \begin{frame}[c,plain]
+  \begin{frame}[c]
     \centering
     \begin{minipage}{\textwidth}
       \usebeamercolor[fg]{normal text}
       \centering
-        \Huge Obrigado!
+      \ifstrequal{#1}{notitle}{}{
+        \Huge \inserttitle \\
+        \vspace{5mm}
+      }
+      \Large \textit{Obrigado pela atenção! \\ Alguma pergunta?} \\
+      \vspace{5mm}
+      \Large \textit{\insertauthor} \\
+      \small \textit{\ifdefempty{\insertemail}{}{\href{mailto:\insertemail}{\insertemail}}}
     \end{minipage}
   \end{frame}
 \endgroup
