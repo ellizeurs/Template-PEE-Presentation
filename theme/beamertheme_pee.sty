@@ -217,9 +217,9 @@
   \ifdefempty{\@TitleBackground}{}{% Skip if \@TitleBackground is empty
     \setbeamertemplate{background}{%
       \ifbool{splittitle}{%
-        \TikzSplitSlide{\@TitleBackground}
+        \TikzSplitSlide{theme/assets/background.png}
       }{% Normal, full-screen background
-        \includegraphics[height=\paperheight]{\@TitleBackground}
+        \includegraphics[height=\paperheight]{theme/assets/background.png}
       }
     }
   }
